@@ -28,9 +28,9 @@ const CATEGORY_META = {
     },
     "Estructura de Mercado y GEX": {
         icon: "⚡",
-        badgeColor: "text-cyan-400",
-        badgeBg: "bg-cyan-500/10",
-        badgeBorder: "border-cyan-500/30"
+        badgeColor: "text-[#2C99D6]",
+        badgeBg: "bg-[#2C99D6]/15",
+        badgeBorder: "border-[#2C99D6]/30"
     },
     "Estrategias de Ingresos y Cobertura": {
         icon: "🛡️",
@@ -40,9 +40,9 @@ const CATEGORY_META = {
     },
     "Spreads y Volatilidad": {
         icon: "🎯",
-        badgeColor: "text-blue-400",
-        badgeBg: "bg-blue-500/10",
-        badgeBorder: "border-blue-500/30"
+        badgeColor: "text-[#38BDF8]",
+        badgeBg: "bg-[#38BDF8]/15",
+        badgeBorder: "border-[#38BDF8]/30"
     }
 };
 
@@ -249,7 +249,7 @@ export function renderNavigation() {
 
         if (filteredMods.length === 0) continue;
 
-        const meta = CATEGORY_META[categoryName] || { icon: "📌", badgeColor: "text-blue-400", badgeBg: "bg-blue-500/10", badgeBorder: "border-blue-500/30" };
+        const meta = CATEGORY_META[categoryName] || { icon: "📌", badgeColor: "text-[#2C99D6]", badgeBg: "bg-[#2C99D6]/15", badgeBorder: "border-[#2C99D6]/30" };
         const isOpen = openCategories.has(categoryName) || searchQuery.length > 0;
 
         // Contenedor del Acordeón
@@ -303,7 +303,7 @@ export function renderNavigation() {
             modLeft.className = 'flex items-center gap-2 truncate pr-2';
 
             const statusDot = document.createElement('span');
-            statusDot.className = `w-1.5 h-1.5 rounded-full flex-shrink-0 ${isCompleted ? 'bg-emerald-400' : (isCurrent ? 'bg-blue-400' : 'bg-slate-600')}`;
+            statusDot.className = `w-1.5 h-1.5 rounded-full flex-shrink-0 ${isCompleted ? 'bg-emerald-400' : (isCurrent ? 'bg-[#2C99D6]' : 'bg-slate-600')}`;
 
             const titleSpan = document.createElement('span');
             titleSpan.className = 'truncate';
@@ -403,7 +403,7 @@ export function loadModule(id) {
 
                 const valSpan = document.createElement('span');
                 valSpan.id = `${ctrl.id}-val`;
-                valSpan.className = 'font-bold text-cyan-400 font-mono px-2 py-0.5 rounded bg-slate-800 border border-slate-700';
+                valSpan.className = 'font-bold text-[#2C99D6] font-mono px-2 py-0.5 rounded bg-slate-800 border border-slate-700';
                 valSpan.innerText = ctrl.value;
 
                 labelRow.appendChild(label);
@@ -416,7 +416,7 @@ export function loadModule(id) {
                 input.max = ctrl.max;
                 input.value = ctrl.value;
                 input.step = ctrl.step;
-                input.className = 'w-full cursor-pointer accent-blue-500';
+                input.className = 'w-full cursor-pointer accent-[#2C99D6]';
 
                 input.addEventListener('input', (e) => {
                     const spanEl = document.getElementById(`${ctrl.id}-val`);
