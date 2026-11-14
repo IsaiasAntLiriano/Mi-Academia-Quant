@@ -473,8 +473,14 @@ function updateNavigationButtons(uniqueMods) {
     const footerNextTitle = document.getElementById('footer-next-title');
     const footerCounter = document.getElementById('footer-module-counter');
 
-    if (footerPrev) footerPrev.disabled = !prevMod;
-    if (footerNext) footerNext.disabled = !nextMod;
+    if (footerPrev) {
+        footerPrev.disabled = !prevMod;
+        footerPrev.title = prevMod ? `Anterior: ${prevMod.title}` : 'Inicio del curso';
+    }
+    if (footerNext) {
+        footerNext.disabled = !nextMod;
+        footerNext.title = nextMod ? `Siguiente: ${nextMod.title}` : 'Fin del curso';
+    }
 
     if (footerPrevTitle) footerPrevTitle.innerText = prevMod ? prevMod.title : 'Inicio';
     if (footerNextTitle) footerNextTitle.innerText = nextMod ? nextMod.title : 'Fin del curso';

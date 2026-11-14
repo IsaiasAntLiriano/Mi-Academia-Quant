@@ -161,3 +161,20 @@ input[type="range"]::-webkit-slider-thumb:active {
 #sidebar-container {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* --- Prevención estricta de solapamiento en controles y navegación --- */
+.truncate {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+#footer-prev-btn, #footer-next-btn {
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+#footer-module-counter {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+}

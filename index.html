@@ -8,8 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Custom Quant Styles (v5.0 UX Masterclass) -->
-    <link rel="stylesheet" href="css/styles.css?v=5.0">
+    <!-- Custom Quant Styles (v5.1 UX Masterclass) -->
+    <link rel="stylesheet" href="css/styles.css?v=5.1">
 </head>
 <body class="h-screen flex flex-col overflow-hidden bg-[#090d16] text-slate-200">
 
@@ -75,7 +75,7 @@
     <div class="flex flex-1 overflow-hidden relative">
         
         <!-- Sidebar Navigation (Desktop & Drawer Mobile) -->
-        <aside id="sidebar-container" class="w-80 glass-panel border-r border-slate-800 flex flex-col flex-shrink-0 z-10 transition-all duration-300">
+        <aside id="sidebar-container" class="w-72 xl:w-80 glass-panel border-r border-slate-800 flex flex-col flex-shrink-0 z-10 transition-all duration-300">
             <!-- Barra Superior del Sidebar: Buscador y Avance -->
             <div class="p-3.5 border-b border-slate-800/80 space-y-3 bg-slate-900/40">
                 <!-- Buscador de Módulos Instantáneo -->
@@ -119,52 +119,65 @@
             </div>
 
             <!-- Contenedor Maestro en 2 Columnas Balanceadas -->
-            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start">
                 
                 <!-- Columna Izquierda: Teoría, Fórmulas y Guía de Estudio (7 Columnas en LG) -->
-                <div class="lg:col-span-7 flex flex-col gap-4">
+                <div class="lg:col-span-7 flex flex-col gap-4 min-w-0">
                     <!-- Barra de Meta e Indicadores del Módulo -->
                     <div class="flex justify-between items-center glass-panel px-4 py-2.5 rounded-xl border border-slate-800">
-                        <div class="flex items-center gap-2">
-                            <span id="meta-category-badge" class="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-blue-500/20 text-blue-400 border border-blue-500/30 font-mono">
+                        <div class="flex items-center gap-2 min-w-0">
+                            <span id="meta-category-badge" class="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-blue-500/20 text-blue-400 border border-blue-500/30 font-mono truncate">
                                 FUNDAMENTOS
                             </span>
-                            <span class="text-xs text-slate-400 hidden sm:inline-flex items-center gap-1">
+                            <span class="text-xs text-slate-400 hidden sm:inline-flex items-center gap-1 flex-shrink-0">
                                 <span>⏱️</span> ~4 min estudio
                             </span>
                         </div>
                         <!-- Botón de Estado / Completado -->
-                        <button id="mark-completed-btn" class="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition-all">
+                        <button id="mark-completed-btn" class="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition-all flex-shrink-0">
                             <span id="mark-completed-icon" class="text-emerald-400">○</span>
                             <span id="mark-completed-text">Marcar estudiado</span>
                         </button>
                     </div>
 
                     <!-- Panel de Contenido Teórico -->
-                    <article id="theory-content" class="glass-panel p-6 md:p-8 rounded-2xl shadow-xl">
+                    <article id="theory-content" class="glass-panel p-6 md:p-8 rounded-2xl shadow-xl min-w-0">
                         <!-- Inyectado dinámicamente -->
                     </article>
 
-                    <!-- Navegación Inferior Paso a Paso -->
-                    <div class="flex justify-between items-center glass-panel p-4 rounded-xl border border-slate-800">
-                        <button id="footer-prev-btn" class="flex items-center gap-2 text-xs md:text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed">
-                            <span>←</span>
-                            <span class="hidden sm:inline">Anterior:</span>
-                            <span id="footer-prev-title" class="truncate max-w-[120px] md:max-w-[180px]">Módulo previo</span>
-                        </button>
-                        <span id="footer-module-counter" class="text-xs text-slate-400 font-mono">
-                            Módulo 1 de 39
-                        </span>
-                        <button id="footer-next-btn" class="flex items-center gap-2 text-xs md:text-sm font-semibold px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed">
-                            <span class="hidden sm:inline">Siguiente:</span>
-                            <span id="footer-next-title" class="truncate max-w-[120px] md:max-w-[180px]">Siguiente</span>
-                            <span>→</span>
-                        </button>
+                    <!-- Navegación Inferior Paso a Paso Anti-Solapamiento (CSS Grid Estricto) -->
+                    <div class="glass-panel p-3.5 sm:p-4 rounded-xl border border-slate-800 min-w-0">
+                        <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-3 items-center w-full min-w-0">
+                            <!-- Botón Anterior (5 columnas) -->
+                            <div class="sm:col-span-5 min-w-0">
+                                <button id="footer-prev-btn" class="w-full flex items-center justify-start gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-300 hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed border border-slate-700/60 overflow-hidden min-w-0">
+                                    <span class="flex-shrink-0 text-sm">←</span>
+                                    <span class="text-slate-400 font-mono text-[11px] flex-shrink-0">Ant:</span>
+                                    <span id="footer-prev-title" class="truncate min-w-0 text-left">Módulo previo</span>
+                                </button>
+                            </div>
+
+                            <!-- Contador Central (2 columnas, nunca se envuelve) -->
+                            <div class="sm:col-span-2 text-center order-first sm:order-none py-1 sm:py-0 min-w-0">
+                                <span id="footer-module-counter" class="text-xs text-slate-400 font-mono whitespace-nowrap px-2 py-0.5 rounded bg-slate-800/60 border border-slate-700/40 inline-block">
+                                    Módulo 1 de 39
+                                </span>
+                            </div>
+
+                            <!-- Botón Siguiente (5 columnas) -->
+                            <div class="sm:col-span-5 min-w-0">
+                                <button id="footer-next-btn" class="w-full flex items-center justify-end gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-md shadow-blue-600/20 overflow-hidden min-w-0">
+                                    <span class="text-blue-200 font-mono text-[11px] flex-shrink-0">Sig:</span>
+                                    <span id="footer-next-title" class="truncate min-w-0 text-right">Siguiente</span>
+                                    <span class="flex-shrink-0 text-sm">→</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Columna Derecha: Laboratorio Cuantitativo Interactivo (5 Columnas en LG, Sticky) -->
-                <div class="lg:col-span-5 flex flex-col gap-4 sticky top-4">
+                <div class="lg:col-span-5 flex flex-col gap-4 sticky top-4 min-w-0">
                     <div class="glass-panel-elevated p-5 md:p-6 rounded-2xl shadow-2xl space-y-4">
                         <!-- Cabecera del Laboratorio -->
                         <div class="flex justify-between items-center border-b border-slate-700/80 pb-3">
@@ -204,7 +217,7 @@
         </main>
     </div>
 
-    <!-- Main ES6 Application Controller (v5.0 UX Masterclass) -->
-    <script type="module" src="js/app.js?v=5.0"></script>
+    <!-- Main ES6 Application Controller (v5.1 UX Masterclass) -->
+    <script type="module" src="js/app.js?v=5.1"></script>
 </body>
 </html>
