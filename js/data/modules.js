@@ -1321,7 +1321,7 @@ export const modules = [
             });
             setCurrentChart(chart);
         }
-    },    // Módulo 20: Net Open Interest Multi-Expiración (Guía Completa y Terminal ARTISANER)
+    },    // Módulo 20: Net Open Interest Multi-Expiración (Guía Completa y Terminal Terminal Cuantitativa)
     {
         id: 20,
         category: "Estructura de Mercado y GEX",
@@ -1380,7 +1380,7 @@ export const modules = [
                 </div>
             </div>
 
-            <!-- Sección 3: Anatomía del Gráfico ARTISANER -->
+            <!-- Sección 3: Anatomía del Gráfico Terminal Cuantitativa -->
             <div class="mb-5">
                 <h3 class="text-lg font-bold text-blue-400 mb-2">3. Anatomía del Gráfico</h3>
                 <div class="space-y-3">
@@ -1471,8 +1471,8 @@ export const modules = [
                 </div>
             </div>
         `,
-        chartTitle: "Net Open Interest Multi Expiration (Terminal ARTISANER)",
-        chartDesc: "Réplica exacta del monitor institucional ARTISANER con barras de Net Open Interest (Negativo en magenta/rojo vs Positivo en verde).",
+        chartTitle: "Net Open Interest Multi Expiration (Terminal Terminal Cuantitativa)",
+        chartDesc: "Réplica exacta del monitor institucional Terminal Cuantitativa con barras de Net Open Interest (Negativo en magenta/rojo vs Positivo en verde).",
         controls: [
             { id: "mod20-spot", label: "Precio Spot Subyacente ($)", type: "range", min: 660, max: 730, value: 700, step: 2 },
             { id: "mod20-view", label: "Modo Vista (1=Net OI, 2=Calls vs Puts, 3=Compare)", type: "range", min: 1, max: 3, value: 1, step: 1 }
@@ -1481,14 +1481,14 @@ export const modules = [
             const spot = parseFloat(document.getElementById('mod20-spot')?.value || 700);
             const viewMode = parseInt(document.getElementById('mod20-view')?.value || 1);
 
-            // Strikes mapeados directamente del gráfico ARTISANER (626 a 734)
+            // Strikes mapeados directamente del gráfico Terminal Cuantitativa (626 a 734)
             const strikes = [
                 '626', '631', '636', '641', '646', '651', '656', '661', '666',
                 '671', '676', '681', '686', '691', '696', '701', '706', '711',
                 '716', '721', '726', '731', '734'
             ];
 
-            // Datos de Call OI y Put OI (en miles de contratos) fieles a la terminal ARTISANER
+            // Datos de Call OI y Put OI (en miles de contratos) fieles a la terminal Terminal Cuantitativa
             const putOI = [
                 12, 138, 52, 186, 90, 322, 65, 132, 50,
                 248, 112, 194, 42, 94, 22, 18, 12, 8,
@@ -1518,7 +1518,7 @@ export const modules = [
             let datasets = [];
 
             if (viewMode === 1) {
-                // Modo 1: Net Open Interest (como en la captura ARTISANER)
+                // Modo 1: Net Open Interest (como en la captura Terminal Cuantitativa)
                 datasets = [{
                     label: 'Net Open Interest (Miles de Contratos)',
                     data: netOI.map(v => Math.abs(v)),
