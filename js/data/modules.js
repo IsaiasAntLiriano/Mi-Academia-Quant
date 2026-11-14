@@ -1321,66 +1321,308 @@ export const modules = [
             });
             setCurrentChart(chart);
         }
-    },
-
-    // Módulo 20: Open Interest Multi-Expiración (Lectura ARTISANER)
+    },    // Módulo 20: Net Open Interest Multi-Expiración (Guía Completa y Terminal ARTISANER)
     {
         id: 20,
         category: "Estructura de Mercado y GEX",
-        title: "20. Open Interest Multi-Expiración",
+        title: "20. Net Open Interest Multi-Expiración",
         theory: `
-            <h2 class="text-2xl font-bold text-blue-400 mb-3">Lectura del Open Interest Multi-Expiración (ARTISANER)</h2>
-            <p class="text-slate-300 mb-3">El <strong>Open Interest (OI)</strong> representa el número total de contratos derivados abiertos y no liquidados. A diferencia del volumen diario, el OI muestra dónde está estacionado el verdadero capital institucional acumulado a través de múltiples vencimientos.</p>
+            <div class="border-b border-slate-700 pb-3 mb-4">
+                <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider">Estructura de Mercado Institucional</span>
+                <h2 class="text-2xl font-extrabold text-white mt-1">Net Open Interest Multi-Expiración: Guía Completa</h2>
+                <p class="text-sm text-slate-400 mt-1">El mapa definitivo de posiciones acumuladas vivas a través de todos los vencimientos.</p>
+            </div>
 
-            <div class="bg-slate-800 p-4 rounded-lg border-l-4 border-cyan-500 mb-4 text-sm text-slate-300">
-                <strong class="text-cyan-400">Patrones Clave del Perfil Institucional:</strong>
-                <ul class="list-disc pl-5 mt-2 space-y-1">
-                    <li><strong class="text-red-400">Muro Masivo de Puts:</strong> Concentración descomunal de contratos Put en strikes clave (p. ej. 650 y 680). Representa pisos estructurales de cobertura.</li>
-                    <li><strong class="text-green-400">Transición de Cruce:</strong> El strike donde el interés abierto de Calls supera al de Puts marca el umbral de aceleración alcista institucional.</li>
-                </ul>
+            <!-- Sección 1: ¿Qué es el Open Interest? -->
+            <div class="mb-5">
+                <h3 class="text-lg font-bold text-blue-400 mb-2">1. ¿Qué es el Open Interest (OI)?</h3>
+                <p class="text-slate-300 text-sm leading-relaxed mb-3">
+                    El <strong>Open Interest</strong> es el número total de contratos de opciones que están <strong>abiertos y vigentes</strong> en un momento dado: contratos que alguien compró y todavía no cerró, ni venció, ni fue ejercido.
+                </p>
+                <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700 text-sm text-slate-300">
+                    A diferencia del volumen (que cuenta cuántos contratos se negociaron hoy), el OI cuenta <strong>cuántos contratos siguen vivos</strong>. Es una foto de la <strong>posición acumulada del mercado</strong>, no del ruido transaccional del día.
+                </div>
+            </div>
+
+            <!-- Sección 2: ¿Por qué Multi-Expiración? -->
+            <div class="mb-5">
+                <h3 class="text-lg font-bold text-blue-400 mb-2">2. ¿Por qué "Multi-Expiración"?</h3>
+                <p class="text-slate-300 text-sm leading-relaxed mb-3">
+                    El gráfico suma el OI de <strong>todas las expiraciones activas</strong> (semanales, mensuales, trimestrales y LEAPS) por cada strike. Esto te da la imagen completa de dónde está concentrado el interés del mercado en términos estructurales, no solo para el vencimiento más cercano.
+                </p>
+                <div class="overflow-x-auto mb-3">
+                    <table class="w-full text-xs text-left text-slate-300 border border-slate-700 rounded-lg overflow-hidden">
+                        <thead class="bg-slate-800 text-slate-200">
+                            <tr>
+                                <th class="p-2 border-b border-slate-700">Dimensión</th>
+                                <th class="p-2 border-b border-slate-700 text-amber-400">OI de una Sola Expiración</th>
+                                <th class="p-2 border-b border-slate-700 text-cyan-400">OI Multi-Expiración</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800 bg-slate-900/60">
+                            <tr>
+                                <td class="p-2 font-semibold">Visión</td>
+                                <td class="p-2">Focalizada en un solo vencimiento</td>
+                                <td class="p-2 text-cyan-300 font-semibold">Estructural, todos los vencimientos combinados</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 font-semibold">Uso</td>
+                                <td class="p-2">Análisis de expiración específica (0DTE/semanal)</td>
+                                <td class="p-2 text-cyan-300 font-semibold">Niveles clave de mediano y largo plazo</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 font-semibold">Riesgo</td>
+                                <td class="p-2 text-red-400">Pierde contexto del cuadro macro completo</td>
+                                <td class="p-2 text-green-400 font-semibold">El más robusto para trading diario y swing</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Sección 3: Anatomía del Gráfico ARTISANER -->
+            <div class="mb-5">
+                <h3 class="text-lg font-bold text-blue-400 mb-2">3. Anatomía del Gráfico</h3>
+                <div class="space-y-3">
+                    <div class="bg-slate-800/70 p-3 rounded-lg border-l-4 border-cyan-500 text-sm">
+                        <h4 class="font-bold text-white mb-1">Las Dos Capas del Chart y el Net OI:</h4>
+                        <ul class="text-slate-300 space-y-1 list-disc pl-4 text-xs">
+                            <li><strong class="text-emerald-400">Positive Net Open Interest (Barras Verdes):</strong> Strikes donde $OI_{Calls} > OI_{Puts}$. Predominio neto de interés comprador/alcista o cobertura larga.</li>
+                            <li><strong class="text-rose-400">Negative Net Open Interest (Barras Rojas / Magenta):</strong> Strikes donde $OI_{Puts} > OI_{Calls}$. Predominio neto de contratos Put (coberturas institucionales bajistas).</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-800/70 p-3 rounded-lg border-l-4 border-yellow-500 text-sm">
+                        <h4 class="font-bold text-white mb-1">El Spot y el Máximo Dolor (Max Pain):</h4>
+                        <p class="text-slate-300 text-xs">
+                            <strong>El Spot:</strong> La línea vertical que marca el precio actual. Su posición relativa a las concentraciones de OI es la lectura más importante.<br>
+                            <strong>El Max Pain:</strong> Es el precio al que <em>vencen sin valor la mayor cantidad de contratos posible</em> (mínimo desembolso de dealers). Actúa como un potente imán gravitacional hacia el vencimiento, especialmente en las últimas horas del viernes de expiración mensual (OpEx).
+                        </p>
+                    </div>
+                    <div class="bg-slate-800/70 p-3 rounded-lg border-l-4 border-purple-500 text-sm">
+                        <h4 class="font-bold text-white mb-1">Los Niveles ITM (In-The-Money 40 / 80):</h4>
+                        <p class="text-slate-300 text-xs">
+                            Marcan los strikes donde Calls o Puts tienen delta ~0.40 y ~0.80. Indican cuánto se ha desplazado el precio respecto a donde estaba concentrado el OI original. Cuando el precio se adentra profundo en el ITM, los creadores de mercado deben cubrir agresivamente en futuros o acciones al contado.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 4: Cómo leer las concentraciones -->
+            <div class="mb-5">
+                <h3 class="text-lg font-bold text-blue-400 mb-2">4. Cómo Leer las Concentraciones de OI</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                    <div class="bg-slate-800/90 p-3 rounded border border-slate-700">
+                        <span class="text-emerald-400 font-bold text-xs">Calls por Encima del Spot</span>
+                        <div class="font-mono text-xs text-slate-300 mt-1">[Spot] &larr;───&rarr; [Call OI Alto]</div>
+                        <p class="text-slate-400 text-xs mt-1">Actúa como <strong>resistencia estructural</strong>. Los vendedores de esas calls no quieren que el precio suba más allá; las ventas de cobertura frenan el movimiento.</p>
+                    </div>
+                    <div class="bg-slate-800/90 p-3 rounded border border-slate-700">
+                        <span class="text-rose-400 font-bold text-xs">Puts por Debajo del Spot</span>
+                        <div class="font-mono text-xs text-slate-300 mt-1">[Put OI Alto] &larr;───&rarr; [Spot]</div>
+                        <p class="text-slate-400 text-xs mt-1">Actúa como <strong>soporte estructural</strong>. Los emisores defienden el nivel con compras de cobertura, complementando el Put Wall del GEX.</p>
+                    </div>
+                </div>
+                <div class="bg-slate-900 p-3 rounded border border-amber-500/40 text-xs text-slate-300">
+                    <strong class="text-amber-400">Concentración Bilateral en el Mismo Strike:</strong> Cuando Calls y Puts tienen volumen masivo en el mismo strike, el precio suele <strong>gravitar y quedarse congelado (pinned)</strong> en ese nivel hacia el vencimiento.
+                </div>
+            </div>
+
+            <!-- Sección 5: Ratio Put/Call y Diferencia OI vs Volumen -->
+            <div class="mb-5">
+                <h3 class="text-lg font-bold text-blue-400 mb-2">5. Ratio Put/Call y Diferencia Crítica vs. Volumen</h3>
+                <div class="bg-slate-800/80 p-3 rounded mb-3 text-xs text-slate-300">
+                    <strong>Lectura del Ratio Put/Call de OI:</strong><br>
+                    &bull; <strong>Ratio &gt; 1:</strong> Más puts que calls acumulados.<br>
+                    &bull; <strong>Ratio &lt; 1:</strong> Predominio de calls abiertas.<br>
+                    <span class="text-amber-400 font-semibold">&iexcl;Cuidado!</span> Un ratio alto de puts <strong>no siempre es bajista</strong>. Los grandes fondos compran puts sistemáticamente como póliza de seguro para cubrir carteras multimillonarias de acciones (hedging), no para especular a la baja.
+                </div>
+
+                <div class="bg-slate-900 p-3 rounded border border-slate-700 text-xs">
+                    <h4 class="text-cyan-400 font-bold mb-1">Regla de Oro: Interacción Volumen vs. Open Interest</h4>
+                    <ul class="text-slate-300 space-y-1 list-disc pl-4">
+                        <li><strong>Volumen Alto + OI Sube:</strong> Nueva posición institucional abierta con convicción.</li>
+                        <li><strong>Volumen Alto + OI Baja:</strong> Posición previa cerrada (liquidación o toma de beneficios).</li>
+                        <li><strong>Volumen Alto + OI Sin Cambio:</strong> Rotación pura de manos (alguien entra, otro sale).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección 6: OI Compare y Checklist 30 Segundos -->
+            <div class="mb-5">
+                <h3 class="text-lg font-bold text-blue-400 mb-2">6. Checklist de Lectura Diaria (30 Segundos)</h3>
+                <div class="bg-slate-800/80 p-3 rounded font-mono text-xs text-slate-300 border-l-4 border-emerald-500 space-y-1">
+                    <div>1. &iquest;D&oacute;nde est&aacute;n las mayores concentraciones de Calls? &rarr; <strong>Resistencia Estructural</strong></div>
+                    <div>2. &iquest;D&oacute;nde est&aacute;n las mayores concentraciones de Puts? &rarr; <strong>Soporte Estructural</strong></div>
+                    <div>3. &iquest;D&oacute;nde est&aacute; el Max Pain respecto al Spot? &rarr; <strong>Im&aacute;n gravitacional hacia OpEx</strong></div>
+                    <div>4. &iquest;Cu&aacute;l es el ratio Put/Call de OI? &rarr; <strong>Sesgo de cobertura acumulado</strong></div>
+                    <div>5. &iquest;Los niveles ITM est&aacute;n profundos? &rarr; <strong>Delta alto y cobertura dealer agresiva</strong></div>
+                    <div>6. &iquest;Coinciden las concentraciones con los Walls del GEX? &rarr; <strong>Doble Respaldo Estructural</strong></div>
+                </div>
+            </div>
+
+            <!-- Sección 7: La Combinación Ganadora OI + GEX -->
+            <div class="mb-4">
+                <div class="bg-gradient-to-r from-blue-900/40 to-cyan-900/40 p-4 rounded-lg border border-cyan-500/40">
+                    <h4 class="text-sm font-bold text-cyan-300 mb-1">&iexcl;La Combinaci&oacute;n Ganadora: OI + GEX!</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        El <strong>GEX (Net Gamma)</strong> mide la presi&oacute;n din&aacute;mica de cobertura intrad&iacute;a de los creadores de mercado. El <strong>OI Multi-Expiraci&oacute;n</strong> mide d&oacute;nde est&aacute; anclado el capital del mercado global.<br>
+                        <strong class="text-amber-300">Regla de Oro:</strong> Cuando un nivel de strike coincide como Wall en el GEX <em>Y</em> como pico m&aacute;ximo en el Net OI, ese strike posee un <strong>doble respaldo estructural</strong> casi infranqueable.
+                    </p>
+                </div>
             </div>
         `,
-        chartTitle: "Perfil de Open Interest Multi-Expiración (Calls vs. Puts)",
-        chartDesc: "Visualización idéntica al monitor cuantitativo ARTISANER con distribución de Call OI (verde) y Put OI (rojo).",
+        chartTitle: "Net Open Interest Multi Expiration (Terminal ARTISANER)",
+        chartDesc: "Réplica exacta del monitor institucional ARTISANER con barras de Net Open Interest (Negativo en magenta/rojo vs Positivo en verde).",
         controls: [
-            { id: "mod20-range", label: "Filtro de Strikes (Zoom)", type: "range", min: 1, max: 3, value: 2, step: 1 }
+            { id: "mod20-spot", label: "Precio Spot Subyacente ($)", type: "range", min: 660, max: 730, value: 700, step: 2 },
+            { id: "mod20-view", label: "Modo Vista (1=Net OI, 2=Calls vs Puts, 3=Compare)", type: "range", min: 1, max: 3, value: 1, step: 1 }
         ],
         renderChart: function() {
-            const strikes = ['630', '640', '650', '660', '670', '680', '690', '700', '710', '720', '730'];
-            const callOI = [18, 25, 45, 55, 60, 115, 90, 245, 110, 150, 135];
-            const putOI = [150, 210, 370, 185, 305, 315, 180, 250, 95, 80, 60];
+            const spot = parseFloat(document.getElementById('mod20-spot')?.value || 700);
+            const viewMode = parseInt(document.getElementById('mod20-view')?.value || 1);
+
+            // Strikes mapeados directamente del gráfico ARTISANER (626 a 734)
+            const strikes = [
+                '626', '631', '636', '641', '646', '651', '656', '661', '666',
+                '671', '676', '681', '686', '691', '696', '701', '706', '711',
+                '716', '721', '726', '731', '734'
+            ];
+
+            // Datos de Call OI y Put OI (en miles de contratos) fieles a la terminal ARTISANER
+            const putOI = [
+                12, 138, 52, 186, 90, 322, 65, 132, 50,
+                248, 112, 194, 42, 94, 22, 18, 12, 8,
+                6, 5, 4, 3, 2
+            ];
+
+            const callOI = [
+                2, 4, 6, 8, 12, 22, 18, 24, 28,
+                38, 42, 55, 48, 52, 35, 62, 98, 72,
+                115, 155, 45, 82, 38
+            ];
+
+            // Net OI = Call OI - Put OI
+            const netOI = callOI.map((c, i) => c - putOI[i]);
+
+            // OI Compare: Cambio simulado respecto a la sesión anterior
+            const compareChange = [
+                -2, +15, -4, +22, +8, -35, +12, +18, -6,
+                +45, -12, +28, +5, -14, +8, +19, +32, -8,
+                +41, +58, -10, +24, +6
+            ];
 
             const ctx = document.getElementById('mainChart').getContext('2d');
             destroyCurrentChart();
             applyChartDefaults();
 
+            let datasets = [];
+
+            if (viewMode === 1) {
+                // Modo 1: Net Open Interest (como en la captura ARTISANER)
+                datasets = [{
+                    label: 'Net Open Interest (Miles de Contratos)',
+                    data: netOI.map(v => Math.abs(v)),
+                    backgroundColor: netOI.map(v => v >= 0 ? 'rgba(16, 185, 129, 0.85)' : 'rgba(225, 29, 72, 0.85)'),
+                    borderColor: netOI.map(v => v >= 0 ? '#10b981' : '#e11d48'),
+                    borderWidth: 1.5
+                }];
+            } else if (viewMode === 2) {
+                // Modo 2: Dos capas superpuestas (Calls vs Puts)
+                datasets = [
+                    {
+                        label: 'Call Open Interest',
+                        data: callOI,
+                        backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                        borderColor: '#10b981',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Put Open Interest',
+                        data: putOI,
+                        backgroundColor: 'rgba(225, 29, 72, 0.8)',
+                        borderColor: '#e11d48',
+                        borderWidth: 1
+                    }
+                ];
+            } else {
+                // Modo 3: OI Compare (Cambio Día a Día)
+                datasets = [{
+                    label: 'OI Compare: Cambio Neto vs. Ayer (Miles de Contratos)',
+                    data: compareChange,
+                    backgroundColor: compareChange.map(v => v >= 0 ? 'rgba(59, 130, 246, 0.85)' : 'rgba(245, 158, 11, 0.85)'),
+                    borderColor: compareChange.map(v => v >= 0 ? '#3b82f6' : '#f59e0b'),
+                    borderWidth: 1.5
+                }];
+            }
+
+            // Calcular métricas cuantitativas en tiempo real
+            const totalCalls = callOI.reduce((a, b) => a + b, 0);
+            const totalPuts = putOI.reduce((a, b) => a + b, 0);
+            const pcRatio = (totalPuts / totalCalls).toFixed(2);
+            const maxPainStrike = '696';
+            const putWallStrike = '651'; // Máximo Put OI (~322K)
+            const callWallStrike = '721'; // Máximo Call OI (~155K)
+
+            // Actualizar descripción dinámica del gráfico
+            const descEl = document.getElementById('chart-description');
+            if (descEl) {
+                descEl.innerHTML = `
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs font-mono mt-2 bg-slate-900/90 p-3 rounded-lg border border-slate-700">
+                        <div><span class="text-slate-400">Spot Actual:</span> <strong class="text-white">$${spot.toFixed(0)}</strong></div>
+                        <div><span class="text-slate-400">Ratio Put/Call:</span> <strong class="text-amber-400">${pcRatio} (Hedging)</strong></div>
+                        <div><span class="text-slate-400">Put Wall OI:</span> <strong class="text-rose-400">Strike $${putWallStrike} (322K)</strong></div>
+                        <div><span class="text-slate-400">Call Wall OI:</span> <strong class="text-emerald-400">Strike $${callWallStrike} (155K)</strong></div>
+                        <div class="col-span-2 md:col-span-4 text-slate-300 mt-1 border-t border-slate-800 pt-1">
+                            🎯 <strong>Max Pain Estructural:</strong> Strike <span class="text-yellow-400 font-bold">$${maxPainStrike}</span> | 
+                            ${spot < 700 ? '<span class="text-rose-400 font-semibold">⚠️ Spot bajo zona de Puts masivos (651-681): Fuerte gravedad alcista de reversión hacia Max Pain.</span>' : '<span class="text-emerald-400 font-semibold">✅ Spot sobre zona neutral: Desaceleración en resistencia Call Wall $721.</span>'}
+                        </div>
+                    </div>
+                `;
+            }
+
             const chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: strikes,
-                    datasets: [
-                        {
-                            label: 'Call Open Interest',
-                            data: callOI,
-                            backgroundColor: 'rgba(16, 185, 129, 0.85)',
-                            borderColor: '#10b981',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Put Open Interest',
-                            data: putOI,
-                            backgroundColor: 'rgba(239, 68, 68, 0.85)',
-                            borderColor: '#ef4444',
-                            borderWidth: 1
-                        }
-                    ]
+                    datasets: datasets
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        x: { grid: { display: false } },
-                        y: { grid: { color: 'rgba(148, 163, 184, 0.1)' }, title: { display: true, text: 'Contratos Abiertos (Miles)' } }
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8', font: { size: 10 } }
+                        },
+                        y: {
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                            title: { display: true, text: viewMode === 3 ? 'Variación de Contratos (Miles)' : 'Contratos (Miles)', color: '#94a3b8' },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                color: '#cbd5e1',
+                                boxWidth: 12,
+                                font: { size: 11 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const rawVal = context.raw;
+                                    const strikeIdx = context.dataIndex;
+                                    const net = netOI[strikeIdx];
+                                    if (viewMode === 1) {
+                                        return `${net >= 0 ? '🟢 Positive Net OI' : '🔴 Negative Net OI'}: ${rawVal}K contratos (${net >= 0 ? 'Calls Dominan' : 'Puts Dominan'})`;
+                                    }
+                                    return `${context.dataset.label}: ${rawVal}K contratos`;
+                                }
+                            }
+                        }
                     }
                 }
             });
