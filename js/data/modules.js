@@ -1,11 +1,6 @@
 /* ============================================
    Academia Quant — Base de Datos de Módulos
-   Cada módulo es un objeto autocontenido con:
-     - Metadata (id, category, title)
-     - Contenido teórico (theory — HTML)
-     - Configuración del chart (chartTitle, chartDesc)
-     - Controles interactivos (controls[])
-     - Función de renderizado (renderChart)
+   Ruta Pedagógica Secuencial (1 al 9)
    ============================================ */
 
 import {
@@ -17,7 +12,7 @@ import {
 
 export const modules = [
     // =============================================
-    // MÓDULO 1 — Conceptos Básicos
+    // 1. FUNDAMENTOS — Conceptos Básicos
     // =============================================
     {
         id: 1,
@@ -54,7 +49,7 @@ export const modules = [
     },
 
     // =============================================
-    // MÓDULO 2 — Las Griegas y Gamma
+    // 2. FUNDAMENTOS — Las Griegas y Gamma
     // =============================================
     {
         id: 2,
@@ -87,12 +82,167 @@ export const modules = [
     },
 
     // =============================================
-    // MÓDULO 3 — El Edge: Niveles Gamma (GEX)
+    // 3. LAS GRIEGAS — Theta y Decaimiento del Tiempo
     // =============================================
     {
         id: 3,
+        category: "Las Griegas",
+        title: "3. Theta: El Decaimiento del Tiempo",
+        theory: `
+            <h2 class="text-2xl font-bold text-blue-400 mb-3">Theta (Θ): El Decaimiento del Tiempo</h2>
+            <p class="text-slate-300 mb-3"><strong>Theta (Θ)</strong> mide cuánto valor pierde una opción por cada día que pasa, manteniendo todo lo demás constante (precio del subyacente, volatilidad, etc.). Es literalmente el <em>precio del tiempo</em>.</p>
+            <div class="bg-slate-800 p-4 rounded-lg mb-4 border-l-4 border-amber-500">
+                <strong class="text-amber-400">💡 La Regla de Oro:</strong><br>
+                <p class="text-slate-300 mt-1">El tiempo es el <strong>peor enemigo</strong> del comprador de opciones y el <strong>mejor amigo</strong> del vendedor. Cada día que pasa sin que el mercado se mueva a tu favor, tu opción pierde valor — y ese dinero va directo al bolsillo de quien te la vendió.</p>
+            </div>
+            <h3 class="text-lg font-semibold text-white mt-6 mb-2">📉 Theta Negativa vs. Theta Positiva</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                <div class="bg-slate-800 p-4 rounded-lg border-t-4 border-red-500">
+                    <p class="font-bold text-red-400 mb-1">Θ Negativa — Comprador (Long)</p>
+                    <ul class="list-disc pl-4 text-slate-300 text-sm mt-1 space-y-1">
+                        <li>Compraste un Call o un Put → <strong>pagas Theta</strong> cada día.</li>
+                        <li>Tu opción se deprecia con el tiempo como un auto nuevo sale del concesionario.</li>
+                        <li>Necesitas que el mercado se mueva <em>rápido y fuerte</em> para compensar el sangrado.</li>
+                        <li>Ejemplo: Θ = -0.05 → pierdes $5/día por contrato (×100 acciones).</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-lg border-t-4 border-green-500">
+                    <p class="font-bold text-green-400 mb-1">Θ Positiva — Vendedor (Short)</p>
+                    <ul class="list-disc pl-4 text-slate-300 text-sm mt-1 space-y-1">
+                        <li>Vendiste un Call o un Put → <strong>cobras Theta</strong> cada día.</li>
+                        <li>El tiempo trabaja <em>a tu favor</em> — ganas dinero simplemente esperando.</li>
+                        <li>Estrategias como Credit Spreads, Iron Condors y Covered Calls se benefician de esto.</li>
+                        <li>Ejemplo: Θ = +0.05 → ganas $5/día por contrato vendido.</li>
+                    </ul>
+                </div>
+            </div>
+            <h3 class="text-lg font-semibold text-white mt-6 mb-2">⚡ El Decaimiento NO es Lineal</h3>
+            <p class="text-slate-300 mb-3">Este es el concepto más importante: la pérdida de valor temporal <strong>no es constante</strong>. La opción no pierde la misma cantidad cada día. El decaimiento sigue una curva que se <em>acelera brutalmente</em> en los últimos 30 días.</p>
+            <div class="bg-slate-800 p-4 rounded-lg mb-4 border-l-4 border-purple-500">
+                <strong class="text-purple-400">📐 Modelo Matemático Simplificado:</strong><br>
+                <p class="text-slate-300 mt-1">El valor extrínseco (temporal) decae proporcionalmente a la <strong>raíz cuadrada del tiempo restante</strong>:</p>
+                <p class="text-blue-300 font-mono mt-2 text-center text-lg">Valor ≈ k × √(DTE)</p>
+                <p class="text-slate-400 text-sm mt-2">Donde DTE = Días Hasta Expiración. Esto significa que pasar de 60 a 50 DTE pierde poco valor, pero pasar de 10 a 0 DTE destruye la mayor parte del valor restante.</p>
+            </div>
+            <h3 class="text-lg font-semibold text-white mt-6 mb-2">🎯 ¿Quién Sufre Más Theta?</h3>
+            <div class="overflow-x-auto mb-4">
+                <table class="w-full text-sm text-left"><thead class="text-xs text-slate-400 uppercase bg-slate-800"><tr><th class="px-3 py-2 rounded-tl-lg">Tipo</th><th class="px-3 py-2">Theta Relativa</th><th class="px-3 py-2 rounded-tr-lg">¿Por qué?</th></tr></thead>
+                <tbody class="text-slate-300">
+                    <tr class="border-b border-slate-700"><td class="px-3 py-2 font-semibold text-yellow-400">ATM</td><td class="px-3 py-2 text-red-400 font-bold">🔥 Máxima</td><td class="px-3 py-2">Todo su valor es extrínseco (temporal). No tiene valor intrínseco. El decaimiento es devastador.</td></tr>
+                    <tr class="border-b border-slate-700"><td class="px-3 py-2 font-semibold text-blue-400">OTM</td><td class="px-3 py-2 text-orange-400 font-bold">Media-Alta</td><td class="px-3 py-2">También es 100% valor extrínseco, pero empieza con menos valor absoluto, así que pierde menos en términos nominales.</td></tr>
+                    <tr><td class="px-3 py-2 font-semibold text-green-400">ITM</td><td class="px-3 py-2 text-slate-400 font-bold">Baja</td><td class="px-3 py-2">Gran parte de su precio es valor intrínseco (real), que <strong>NO</strong> decae con el tiempo. Solo pierde la porción extrínseca.</td></tr>
+                </tbody></table>
+            </div>
+            <h3 class="text-lg font-semibold text-white mt-6 mb-2">🛠️ Implicaciones Prácticas para Tu Trading</h3>
+            <div class="bg-slate-800 p-4 rounded-lg mb-4 border-l-4 border-blue-500">
+                <ul class="list-disc pl-5 text-slate-300 space-y-2">
+                    <li><strong>Si compras opciones (Long):</strong> Usa expiraciones lejanas (45-60+ DTE) para minimizar el sangrado diario. Evita comprar opciones con menos de 21 DTE a menos que busques un evento binario (earnings, FOMC).</li>
+                    <li><strong>Si vendes opciones (Short):</strong> Vende opciones con 30-45 DTE para capturar la zona de máxima aceleración de Theta. El "sweet spot" de los vendedores es entrar a 45 DTE y cerrar a 21 DTE.</li>
+                    <li><strong>Fin de semana:</strong> Theta se cobra los 7 días de la semana (incluidos sábado y domingo). El viernes por la tarde, las opciones pierden ~3 días de Theta de golpe (se refleja el lunes al abrir).</li>
+                </ul>
+            </div>
+            <p class="text-sm text-slate-400 italic mt-4">💡 Usa el selector en el gráfico para comparar cómo el decaimiento afecta a opciones ATM, OTM e ITM. Observa cómo la curva ATM colapsa exponencialmente en los últimos 20 días.</p>
+        `,
+        chartTitle: "Theta Decay: Valor Extrínseco vs. Días a Expiración",
+        chartDesc: "Observa cómo el valor extrínseco decae según los días restantes. Las opciones ATM sufren el decaimiento más severo y no-lineal.",
+        controls: [
+            { id: 'thetaMoneyness', label: 'Moneyness (tipo de opción)', type: 'range', min: 1, max: 3, value: 1, step: 1 },
+            { id: 'thetaIV', label: 'Volatilidad Implícita (%)', type: 'range', min: 15, max: 60, value: 30, step: 1 }
+        ],
+        renderChart: () => {
+            const moneynessVal = parseInt(document.getElementById('thetaMoneyness').value);
+            const iv = parseFloat(document.getElementById('thetaIV').value) / 100;
+            const moneynessMap = { 1: 'ATM', 2: 'OTM', 3: 'ITM' };
+            document.getElementById('thetaMoneyness-val').innerText = moneynessMap[moneynessVal];
+
+            const dteLabels = [], atmValues = [], otmValues = [], itmValues = [];
+            const strike = 100, spotATM = 100, spotOTM = 95, spotITM = 110;
+
+            for (let dte = 60; dte >= 0; dte--) {
+                dteLabels.push(dte);
+                const T = dte / 365, sqrtT = Math.sqrt(Math.max(T, 0));
+                atmValues.push(Math.max(spotATM * iv * sqrtT * 0.4, 0));
+                otmValues.push(Math.max(spotOTM * iv * sqrtT * 0.25, 0));
+                itmValues.push(Math.max(spotITM * iv * sqrtT * 0.2, 0));
+            }
+
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            destroyCurrentChart();
+            applyChartDefaults();
+
+            const mkDataset = (label, data, color, idx) => ({
+                label, data,
+                borderColor: moneynessVal === idx ? color.replace('0.25)', '1)').replace('0.8)', '1)') : color.replace('1)', '0.25)'),
+                backgroundColor: moneynessVal === idx ? color.replace('1)', '0.1)') : 'transparent',
+                borderWidth: moneynessVal === idx ? 3 : 1,
+                fill: moneynessVal === idx, tension: 0.4, pointRadius: 0,
+                pointHoverRadius: moneynessVal === idx ? 6 : 3,
+                borderDash: moneynessVal === idx ? [] : [5, 5]
+            });
+
+            const datasets = [
+                mkDataset('ATM (At-The-Money)', atmValues, 'rgba(250, 204, 21, 1)', 1),
+                mkDataset('OTM (Out-Of-The-Money)', otmValues, 'rgba(59, 130, 246, 1)', 2),
+                mkDataset('ITM (In-The-Money — solo extrínseco)', itmValues, 'rgba(34, 197, 94, 1)', 3)
+            ];
+
+            const descriptions = {
+                1: '🟡 ATM destacada — Observa el colapso exponencial: el decaimiento se acelera brutalmente a partir de 30 DTE. A 10 DTE, la opción ATM ya perdió ~60% de su valor temporal.',
+                2: '🔵 OTM destacada — Decaimiento más suave pero constante. Empieza con menos valor y se erosiona de forma más lineal. Llega a cero antes que la ATM en muchos casos.',
+                3: '🟢 ITM destacada (solo valor extrínseco) — La porción temporal es pequeña respecto al precio total. El valor intrínseco ($10 en este ejemplo) NO decae con el tiempo.'
+            };
+            document.getElementById('chart-description').innerHTML = descriptions[moneynessVal];
+
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: { labels: dteLabels, datasets },
+                plugins: [{
+                    id: 'thetaDangerZone',
+                    afterDraw: (chart) => {
+                        const xAxis = chart.scales.x, yAxis = chart.scales.y, ctx2 = chart.ctx;
+                        const idx30 = dteLabels.indexOf(30), idx0 = dteLabels.indexOf(0);
+                        if (idx30 >= 0 && idx0 >= 0) {
+                            const xStart = xAxis.getPixelForValue(idx30), xEnd = xAxis.getPixelForValue(idx0);
+                            ctx2.save(); ctx2.fillStyle = 'rgba(239, 68, 68, 0.06)';
+                            ctx2.fillRect(xStart, yAxis.top, xEnd - xStart, yAxis.bottom - yAxis.top);
+                            ctx2.fillStyle = 'rgba(239, 68, 68, 0.5)'; ctx2.font = 'bold 10px Inter, sans-serif'; ctx2.textAlign = 'center';
+                            ctx2.fillText('⚠ ZONA DE ACELERACIÓN', (xStart + xEnd) / 2, yAxis.top + 14); ctx2.restore();
+                        }
+                        const idx21 = dteLabels.indexOf(21);
+                        if (idx21 >= 0) {
+                            const xPos = xAxis.getPixelForValue(idx21);
+                            ctx2.save(); ctx2.strokeStyle = 'rgba(168, 85, 247, 0.6)'; ctx2.lineWidth = 1.5; ctx2.setLineDash([4, 4]);
+                            ctx2.beginPath(); ctx2.moveTo(xPos, yAxis.top); ctx2.lineTo(xPos, yAxis.bottom); ctx2.stroke();
+                            ctx2.fillStyle = 'rgba(168, 85, 247, 0.7)'; ctx2.font = '9px Inter, sans-serif'; ctx2.textAlign = 'center';
+                            ctx2.fillText('21 DTE', xPos, yAxis.bottom + 12); ctx2.restore();
+                        }
+                    }
+                }],
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    layout: { padding: { bottom: 16 } },
+                    plugins: {
+                        legend: { display: true, position: 'top', labels: { boxWidth: 12, font: { size: 10 }, color: '#94a3b8', usePointStyle: true } },
+                        tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.95)', titleColor: '#fff', bodyColor: '#cbd5e1', borderColor: 'rgba(250, 204, 21, 0.5)', borderWidth: 1, callbacks: { title: (items) => 'DTE: ' + items[0].label + ' días', afterBody: (items) => { const dte = parseInt(items[0].label); if (dte <= 7) return '🔥 Zona crítica — Theta máxima'; if (dte <= 21) return '⚡ Aceleración fuerte del decaimiento'; if (dte <= 30) return '⚠ Comienza la aceleración'; return '✅ Decaimiento moderado'; } } }
+                    },
+                    scales: {
+                        x: { reverse: true, grid: { display: false }, title: { display: true, text: 'Días hasta Expiración (DTE) →', color: '#94a3b8', font: { size: 11 } }, ticks: { callback: function(value) { const label = this.getLabelForValue(value); if ([60, 45, 30, 21, 14, 7, 0].includes(parseInt(label))) return label; return ''; }, font: { size: 10 } } },
+                        y: { grid: { color: 'rgba(148, 163, 184, 0.1)' }, title: { display: true, text: 'Valor Extrínseco ($)', color: '#94a3b8', font: { size: 11 } }, beginAtZero: true }
+                    }
+                }
+            });
+            setCurrentChart(chart);
+        }
+    },
+
+    // =============================================
+    // 4. QUANT TRADING — El Edge: Niveles Gamma (GEX)
+    // =============================================
+    {
+        id: 4,
         category: "Quant Trading",
-        title: "3. El Edge: Niveles Gamma (GEX)",
+        title: "4. El Edge: Niveles Gamma (GEX)",
         theory: `
             <h2 class="text-2xl font-bold text-blue-400 mb-3">Gamma Exposure (GEX)</h2>
             <p class="text-slate-300 mb-3">Aquí está tu <strong>Edge (ventaja)</strong>. El mercado está dominado por Market Makers (creadores de mercado) que te venden las opciones. Ellos deben cubrirse (hedging).</p>
@@ -127,12 +277,12 @@ export const modules = [
     },
 
     // =============================================
-    // MÓDULO 4 — Volatility Skew
+    // 5. QUANT TRADING — Volatility Skew
     // =============================================
     {
-        id: 4,
+        id: 5,
         category: "Quant Trading",
-        title: "4. Volatility Skew",
+        title: "5. Volatility Skew",
         theory: `
             <h2 class="text-2xl font-bold text-blue-400 mb-3">La "Sonrisa" de la Volatilidad</h2>
             <p class="text-slate-300 mb-3">En teoría, un Call y un Put equidistantes del precio actual deberían costar lo mismo en volatilidad. En la vida real, <strong>no es así</strong>.</p>
@@ -161,83 +311,12 @@ export const modules = [
     },
 
     // =============================================
-    // MÓDULO 5 — Leyendo tu Data Cuantitativa
-    // =============================================
-    {
-        id: 5,
-        category: "Plan de Acción",
-        title: "5. Leyendo tu Data Cuantitativa",
-        theory: `
-            <h2 class="text-2xl font-bold text-blue-400 mb-3">El Plan de Trading</h2>
-            <p class="text-slate-300 mb-3">Cuando abras tus herramientas de data cuantitativa cada mañana, busca estos 3 datos:</p>
-            <ol class="list-decimal pl-5 text-slate-300 space-y-3 mb-4">
-                <li><strong>Zero Gamma (Nivel Flip):</strong> Si el SPX está en 4100 y el Zero Gamma es 4050, estamos en Gamma Positivo. Operamos <em>Mean Reversion</em> (comprar soportes, vender resistencias). Si caemos bajo 4050, operamos <em>Breakouts/Momentum</em>.</li>
-                <li><strong>Call Wall:</strong> El strike superior con más Gamma. Actúa como el "techo" absoluto del mercado ese día.</li>
-                <li><strong>Put Wall:</strong> El strike inferior con más Gamma negativo. Actúa como piso (o como imán de crash si se rompe).</li>
-            </ol>
-            <p class="text-green-400 font-bold mt-4">¡Pídeme a través de Gémini que agregue calculadoras específicas o que profundice en estrategias como Iron Condors, Straddles o análisis de Order Flow en futuros módulos!</p>
-        `,
-        chartTitle: "Mapa de Calor Estructural del Mercado",
-        chartDesc: "Visualización de Muros (Walls). El Call Wall frena las subidas, el Put Wall frena las bajadas.",
-        controls: [],
-        renderChart: () => {
-            const strikes = ['3900 (Put Wall)', '3950', '4000 (Zero Gamma)', '4050', '4100 (Call Wall)'];
-            const data = [-1500, -200, 50, 400, 2000];
-            updateChartInstance('bar', strikes, data, 'Magnitud (Contratos x Gamma)',
-                (ctx) => {
-                    const val = ctx.raw;
-                    if (val > 1000) return 'rgba(59, 130, 246, 0.8)';
-                    if (val < -1000) return 'rgba(239, 68, 68, 0.8)';
-                    return 'rgba(148, 163, 184, 0.5)';
-                }
-            );
-        }
-    },
-
-    // =============================================
-    // MÓDULO 6 — Straddle (Volatilidad)
+    // 6. ESTRUCTURA DE MERCADO Y GEX — Net Gamma Multi-Expiración
     // =============================================
     {
         id: 6,
-        category: "Estrategias",
-        title: "6. Straddle (Volatilidad)",
-        theory: `
-            <h2 class="text-2xl font-bold text-blue-400 mb-3">Long Straddle</h2>
-            <p class="text-slate-300 mb-3">Un <strong>Straddle</strong> consiste en comprar un Call y un Put exactamente al mismo precio Strike y misma fecha de expiración.</p>
-            <p class="text-slate-300 mb-3">Se utiliza cuando esperas un <strong>movimiento explosivo</strong> (gran volatilidad, como un reporte de ganancias o datos de inflación CPI), pero no sabes en qué dirección.</p>
-            <ul class="list-disc pl-5 text-slate-300 space-y-2 mb-4">
-                <li><strong class="text-green-400">Riesgo:</strong> Limitado a las primas que pagaste. Ganas si el mercado se mueve fuerte hacia arriba o hacia abajo.</li>
-                <li><strong class="text-red-400">Enemigo:</strong> El paso del tiempo (Theta) y que el mercado se quede lateralizado cerca del Strike original.</li>
-            </ul>
-        `,
-        chartTitle: "Perfil de Riesgo: Long Straddle",
-        chartDesc: "Ganas si el precio se aleja del Strike lo suficiente en cualquier dirección para cubrir el costo de ambas opciones.",
-        controls: [
-            { id: 'straddleStrike', label: 'Strike (Call & Put)', type: 'range', min: 3800, max: 4200, value: 4000, step: 10 },
-            { id: 'straddlePremium', label: 'Costo Total (Call + Put)', type: 'range', min: 10, max: 200, value: 100, step: 5 }
-        ],
-        renderChart: () => {
-            const strike = parseFloat(document.getElementById('straddleStrike').value);
-            const premium = parseFloat(document.getElementById('straddlePremium').value);
-            const prices = [];
-            const pnl = [];
-            for (let i = 3700; i <= 4300; i += 10) {
-                prices.push(i);
-                pnl.push((Math.max(0, i - strike) + Math.max(0, strike - i)) - premium);
-            }
-            updateChartInstance('line', prices, pnl, 'P&L ($)',
-                (ctx) => (ctx.p0?.parsed?.y < 0) ? 'rgba(239, 68, 68, 0.8)' : 'rgba(34, 197, 94, 0.8)'
-            );
-        }
-    },
-
-    // =============================================
-    // MÓDULO 7 — Net Gamma Multi-Expiración
-    // =============================================
-    {
-        id: 7,
         category: "Estructura de Mercado y GEX",
-        title: "7. Net Gamma Multi-Expiración",
+        title: "6. Net Gamma Multi-Expiración",
         theory: `
             <h2 class="text-2xl font-bold text-blue-400 mb-3">Net Gamma Multi-Expiración</h2>
             <p class="text-slate-300 mb-3">El <strong>Gamma Exposure (GEX)</strong> mide la exposición neta de Gamma que los Market Makers (dealers) mantienen en el mercado de opciones. A diferencia de los flujos 0DTE (que expiran el mismo día y solo reflejan el <em>ruido intradía</em>), el <strong>Net Gamma Multi-Expiración</strong> agrega <em>todas</em> las cadenas de opciones abiertas —semanales, mensuales, trimestrales— para revelar los verdaderos niveles estructurales donde los dealers deben cubrir (hedge) sus posiciones masivamente.</p>
@@ -424,162 +503,78 @@ export const modules = [
     },
 
     // =============================================
-    // MÓDULO 8 — Theta: El Decaimiento del Tiempo
+    // 7. PLAN DE ACCIÓN — Leyendo tu Data Cuantitativa
     // =============================================
     {
-        id: 8,
-        category: "Las Griegas",
-        title: "8. Theta: El Decaimiento del Tiempo",
+        id: 7,
+        category: "Plan de Acción",
+        title: "7. Leyendo tu Data Cuantitativa",
         theory: `
-            <h2 class="text-2xl font-bold text-blue-400 mb-3">Theta (Θ): El Decaimiento del Tiempo</h2>
-            <p class="text-slate-300 mb-3"><strong>Theta (Θ)</strong> mide cuánto valor pierde una opción por cada día que pasa, manteniendo todo lo demás constante (precio del subyacente, volatilidad, etc.). Es literalmente el <em>precio del tiempo</em>.</p>
-            <div class="bg-slate-800 p-4 rounded-lg mb-4 border-l-4 border-amber-500">
-                <strong class="text-amber-400">💡 La Regla de Oro:</strong><br>
-                <p class="text-slate-300 mt-1">El tiempo es el <strong>peor enemigo</strong> del comprador de opciones y el <strong>mejor amigo</strong> del vendedor. Cada día que pasa sin que el mercado se mueva a tu favor, tu opción pierde valor — y ese dinero va directo al bolsillo de quien te la vendió.</p>
-            </div>
-            <h3 class="text-lg font-semibold text-white mt-6 mb-2">📉 Theta Negativa vs. Theta Positiva</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                <div class="bg-slate-800 p-4 rounded-lg border-t-4 border-red-500">
-                    <p class="font-bold text-red-400 mb-1">Θ Negativa — Comprador (Long)</p>
-                    <ul class="list-disc pl-4 text-slate-300 text-sm mt-1 space-y-1">
-                        <li>Compraste un Call o un Put → <strong>pagas Theta</strong> cada día.</li>
-                        <li>Tu opción se deprecia con el tiempo como un auto nuevo sale del concesionario.</li>
-                        <li>Necesitas que el mercado se mueva <em>rápido y fuerte</em> para compensar el sangrado.</li>
-                        <li>Ejemplo: Θ = -0.05 → pierdes $5/día por contrato (×100 acciones).</li>
-                    </ul>
-                </div>
-                <div class="bg-slate-800 p-4 rounded-lg border-t-4 border-green-500">
-                    <p class="font-bold text-green-400 mb-1">Θ Positiva — Vendedor (Short)</p>
-                    <ul class="list-disc pl-4 text-slate-300 text-sm mt-1 space-y-1">
-                        <li>Vendiste un Call o un Put → <strong>cobras Theta</strong> cada día.</li>
-                        <li>El tiempo trabaja <em>a tu favor</em> — ganas dinero simplemente esperando.</li>
-                        <li>Estrategias como Credit Spreads, Iron Condors y Covered Calls se benefician de esto.</li>
-                        <li>Ejemplo: Θ = +0.05 → ganas $5/día por contrato vendido.</li>
-                    </ul>
-                </div>
-            </div>
-            <h3 class="text-lg font-semibold text-white mt-6 mb-2">⚡ El Decaimiento NO es Lineal</h3>
-            <p class="text-slate-300 mb-3">Este es el concepto más importante: la pérdida de valor temporal <strong>no es constante</strong>. La opción no pierde la misma cantidad cada día. El decaimiento sigue una curva que se <em>acelera brutalmente</em> en los últimos 30 días.</p>
-            <div class="bg-slate-800 p-4 rounded-lg mb-4 border-l-4 border-purple-500">
-                <strong class="text-purple-400">📐 Modelo Matemático Simplificado:</strong><br>
-                <p class="text-slate-300 mt-1">El valor extrínseco (temporal) decae proporcionalmente a la <strong>raíz cuadrada del tiempo restante</strong>:</p>
-                <p class="text-blue-300 font-mono mt-2 text-center text-lg">Valor ≈ k × √(DTE)</p>
-                <p class="text-slate-400 text-sm mt-2">Donde DTE = Días Hasta Expiración. Esto significa que pasar de 60 a 50 DTE pierde poco valor, pero pasar de 10 a 0 DTE destruye la mayor parte del valor restante.</p>
-            </div>
-            <h3 class="text-lg font-semibold text-white mt-6 mb-2">🎯 ¿Quién Sufre Más Theta?</h3>
-            <div class="overflow-x-auto mb-4">
-                <table class="w-full text-sm text-left"><thead class="text-xs text-slate-400 uppercase bg-slate-800"><tr><th class="px-3 py-2 rounded-tl-lg">Tipo</th><th class="px-3 py-2">Theta Relativa</th><th class="px-3 py-2 rounded-tr-lg">¿Por qué?</th></tr></thead>
-                <tbody class="text-slate-300">
-                    <tr class="border-b border-slate-700"><td class="px-3 py-2 font-semibold text-yellow-400">ATM</td><td class="px-3 py-2 text-red-400 font-bold">🔥 Máxima</td><td class="px-3 py-2">Todo su valor es extrínseco (temporal). No tiene valor intrínseco. El decaimiento es devastador.</td></tr>
-                    <tr class="border-b border-slate-700"><td class="px-3 py-2 font-semibold text-blue-400">OTM</td><td class="px-3 py-2 text-orange-400 font-bold">Media-Alta</td><td class="px-3 py-2">También es 100% valor extrínseco, pero empieza con menos valor absoluto, así que pierde menos en términos nominales.</td></tr>
-                    <tr><td class="px-3 py-2 font-semibold text-green-400">ITM</td><td class="px-3 py-2 text-slate-400 font-bold">Baja</td><td class="px-3 py-2">Gran parte de su precio es valor intrínseco (real), que <strong>NO</strong> decae con el tiempo. Solo pierde la porción extrínseca.</td></tr>
-                </tbody></table>
-            </div>
-            <h3 class="text-lg font-semibold text-white mt-6 mb-2">🛠️ Implicaciones Prácticas para Tu Trading</h3>
-            <div class="bg-slate-800 p-4 rounded-lg mb-4 border-l-4 border-blue-500">
-                <ul class="list-disc pl-5 text-slate-300 space-y-2">
-                    <li><strong>Si compras opciones (Long):</strong> Usa expiraciones lejanas (45-60+ DTE) para minimizar el sangrado diario. Evita comprar opciones con menos de 21 DTE a menos que busques un evento binario (earnings, FOMC).</li>
-                    <li><strong>Si vendes opciones (Short):</strong> Vende opciones con 30-45 DTE para capturar la zona de máxima aceleración de Theta. El "sweet spot" de los vendedores es entrar a 45 DTE y cerrar a 21 DTE.</li>
-                    <li><strong>Fin de semana:</strong> Theta se cobra los 7 días de la semana (incluidos sábado y domingo). El viernes por la tarde, las opciones pierden ~3 días de Theta de golpe (se refleja el lunes al abrir).</li>
-                </ul>
-            </div>
-            <p class="text-sm text-slate-400 italic mt-4">💡 Usa el selector en el gráfico para comparar cómo el decaimiento afecta a opciones ATM, OTM e ITM. Observa cómo la curva ATM colapsa exponencialmente en los últimos 20 días.</p>
+            <h2 class="text-2xl font-bold text-blue-400 mb-3">El Plan de Trading</h2>
+            <p class="text-slate-300 mb-3">Cuando abras tus herramientas de data cuantitativa cada mañana, busca estos 3 datos:</p>
+            <ol class="list-decimal pl-5 text-slate-300 space-y-3 mb-4">
+                <li><strong>Zero Gamma (Nivel Flip):</strong> Si el SPX está en 4100 y el Zero Gamma es 4050, estamos en Gamma Positivo. Operamos <em>Mean Reversion</em> (comprar soportes, vender resistencias). Si caemos bajo 4050, operamos <em>Breakouts/Momentum</em>.</li>
+                <li><strong>Call Wall:</strong> El strike superior con más Gamma. Actúa como el "techo" absoluto del mercado ese día.</li>
+                <li><strong>Put Wall:</strong> El strike inferior con más Gamma negativo. Actúa como piso (o como imán de crash si se rompe).</li>
+            </ol>
+            <p class="text-green-400 font-bold mt-4">¡Pídeme a través de Gémini que agregue calculadoras específicas o que profundice en estrategias como Iron Condors, Straddles o análisis de Order Flow en futuros módulos!</p>
         `,
-        chartTitle: "Theta Decay: Valor Extrínseco vs. Días a Expiración",
-        chartDesc: "Observa cómo el valor extrínseco decae según los días restantes. Las opciones ATM sufren el decaimiento más severo y no-lineal.",
-        controls: [
-            { id: 'thetaMoneyness', label: 'Moneyness (tipo de opción)', type: 'range', min: 1, max: 3, value: 1, step: 1 },
-            { id: 'thetaIV', label: 'Volatilidad Implícita (%)', type: 'range', min: 15, max: 60, value: 30, step: 1 }
-        ],
+        chartTitle: "Mapa de Calor Estructural del Mercado",
+        chartDesc: "Visualización de Muros (Walls). El Call Wall frena las subidas, el Put Wall frena las bajadas.",
+        controls: [],
         renderChart: () => {
-            const moneynessVal = parseInt(document.getElementById('thetaMoneyness').value);
-            const iv = parseFloat(document.getElementById('thetaIV').value) / 100;
-            const moneynessMap = { 1: 'ATM', 2: 'OTM', 3: 'ITM' };
-            document.getElementById('thetaMoneyness-val').innerText = moneynessMap[moneynessVal];
-
-            const dteLabels = [], atmValues = [], otmValues = [], itmValues = [];
-            const strike = 100, spotATM = 100, spotOTM = 95, spotITM = 110;
-
-            for (let dte = 60; dte >= 0; dte--) {
-                dteLabels.push(dte);
-                const T = dte / 365, sqrtT = Math.sqrt(Math.max(T, 0));
-                atmValues.push(Math.max(spotATM * iv * sqrtT * 0.4, 0));
-                otmValues.push(Math.max(spotOTM * iv * sqrtT * 0.25, 0));
-                itmValues.push(Math.max(spotITM * iv * sqrtT * 0.2, 0));
-            }
-
-            const ctx = document.getElementById('mainChart').getContext('2d');
-            destroyCurrentChart();
-            applyChartDefaults();
-
-            const mkDataset = (label, data, color, idx) => ({
-                label, data,
-                borderColor: moneynessVal === idx ? color.replace('0.25)', '1)').replace('0.8)', '1)') : color.replace('1)', '0.25)'),
-                backgroundColor: moneynessVal === idx ? color.replace('1)', '0.1)') : 'transparent',
-                borderWidth: moneynessVal === idx ? 3 : 1,
-                fill: moneynessVal === idx, tension: 0.4, pointRadius: 0,
-                pointHoverRadius: moneynessVal === idx ? 6 : 3,
-                borderDash: moneynessVal === idx ? [] : [5, 5]
-            });
-
-            const datasets = [
-                mkDataset('ATM (At-The-Money)', atmValues, 'rgba(250, 204, 21, 1)', 1),
-                mkDataset('OTM (Out-Of-The-Money)', otmValues, 'rgba(59, 130, 246, 1)', 2),
-                mkDataset('ITM (In-The-Money — solo extrínseco)', itmValues, 'rgba(34, 197, 94, 1)', 3)
-            ];
-
-            const descriptions = {
-                1: '🟡 ATM destacada — Observa el colapso exponencial: el decaimiento se acelera brutalmente a partir de 30 DTE. A 10 DTE, la opción ATM ya perdió ~60% de su valor temporal.',
-                2: '🔵 OTM destacada — Decaimiento más suave pero constante. Empieza con menos valor y se erosiona de forma más lineal. Llega a cero antes que la ATM en muchos casos.',
-                3: '🟢 ITM destacada (solo valor extrínseco) — La porción temporal es pequeña respecto al precio total. El valor intrínseco ($10 en este ejemplo) NO decae con el tiempo.'
-            };
-            document.getElementById('chart-description').innerHTML = descriptions[moneynessVal];
-
-            const chart = new Chart(ctx, {
-                type: 'line',
-                data: { labels: dteLabels, datasets },
-                plugins: [{
-                    id: 'thetaDangerZone',
-                    afterDraw: (chart) => {
-                        const xAxis = chart.scales.x, yAxis = chart.scales.y, ctx2 = chart.ctx;
-                        const idx30 = dteLabels.indexOf(30), idx0 = dteLabels.indexOf(0);
-                        if (idx30 >= 0 && idx0 >= 0) {
-                            const xStart = xAxis.getPixelForValue(idx30), xEnd = xAxis.getPixelForValue(idx0);
-                            ctx2.save(); ctx2.fillStyle = 'rgba(239, 68, 68, 0.06)';
-                            ctx2.fillRect(xStart, yAxis.top, xEnd - xStart, yAxis.bottom - yAxis.top);
-                            ctx2.fillStyle = 'rgba(239, 68, 68, 0.5)'; ctx2.font = 'bold 10px Inter, sans-serif'; ctx2.textAlign = 'center';
-                            ctx2.fillText('⚠ ZONA DE ACELERACIÓN', (xStart + xEnd) / 2, yAxis.top + 14); ctx2.restore();
-                        }
-                        const idx21 = dteLabels.indexOf(21);
-                        if (idx21 >= 0) {
-                            const xPos = xAxis.getPixelForValue(idx21);
-                            ctx2.save(); ctx2.strokeStyle = 'rgba(168, 85, 247, 0.6)'; ctx2.lineWidth = 1.5; ctx2.setLineDash([4, 4]);
-                            ctx2.beginPath(); ctx2.moveTo(xPos, yAxis.top); ctx2.lineTo(xPos, yAxis.bottom); ctx2.stroke();
-                            ctx2.fillStyle = 'rgba(168, 85, 247, 0.7)'; ctx2.font = '9px Inter, sans-serif'; ctx2.textAlign = 'center';
-                            ctx2.fillText('21 DTE', xPos, yAxis.bottom + 12); ctx2.restore();
-                        }
-                    }
-                }],
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    layout: { padding: { bottom: 16 } },
-                    plugins: {
-                        legend: { display: true, position: 'top', labels: { boxWidth: 12, font: { size: 10 }, color: '#94a3b8', usePointStyle: true } },
-                        tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.95)', titleColor: '#fff', bodyColor: '#cbd5e1', borderColor: 'rgba(250, 204, 21, 0.5)', borderWidth: 1, callbacks: { title: (items) => 'DTE: ' + items[0].label + ' días', afterBody: (items) => { const dte = parseInt(items[0].label); if (dte <= 7) return '🔥 Zona crítica — Theta máxima'; if (dte <= 21) return '⚡ Aceleración fuerte del decaimiento'; if (dte <= 30) return '⚠ Comienza la aceleración'; return '✅ Decaimiento moderado'; } } }
-                    },
-                    scales: {
-                        x: { reverse: true, grid: { display: false }, title: { display: true, text: 'Días hasta Expiración (DTE) →', color: '#94a3b8', font: { size: 11 } }, ticks: { callback: function(value) { const label = this.getLabelForValue(value); if ([60, 45, 30, 21, 14, 7, 0].includes(parseInt(label))) return label; return ''; }, font: { size: 10 } } },
-                        y: { grid: { color: 'rgba(148, 163, 184, 0.1)' }, title: { display: true, text: 'Valor Extrínseco ($)', color: '#94a3b8', font: { size: 11 } }, beginAtZero: true }
-                    }
+            const strikes = ['3900 (Put Wall)', '3950', '4000 (Zero Gamma)', '4050', '4100 (Call Wall)'];
+            const data = [-1500, -200, 50, 400, 2000];
+            updateChartInstance('bar', strikes, data, 'Magnitud (Contratos x Gamma)',
+                (ctx) => {
+                    const val = ctx.raw;
+                    if (val > 1000) return 'rgba(59, 130, 246, 0.8)';
+                    if (val < -1000) return 'rgba(239, 68, 68, 0.8)';
+                    return 'rgba(148, 163, 184, 0.5)';
                 }
-            });
-            setCurrentChart(chart);
+            );
         }
     },
 
     // =============================================
-    // MÓDULO 9 — Iron Condor (Theta en Acción)
+    // 8. ESTRATEGIAS — Straddle (Volatilidad)
+    // =============================================
+    {
+        id: 8,
+        category: "Estrategias",
+        title: "8. Straddle (Volatilidad)",
+        theory: `
+            <h2 class="text-2xl font-bold text-blue-400 mb-3">Long Straddle</h2>
+            <p class="text-slate-300 mb-3">Un <strong>Straddle</strong> consiste en comprar un Call y un Put exactamente al mismo precio Strike y misma fecha de expiración.</p>
+            <p class="text-slate-300 mb-3">Se utiliza cuando esperas un <strong>movimiento explosivo</strong> (gran volatilidad, como un reporte de ganancias o datos de inflación CPI), pero no sabes en qué dirección.</p>
+            <ul class="list-disc pl-5 text-slate-300 space-y-2 mb-4">
+                <li><strong class="text-green-400">Riesgo:</strong> Limitado a las primas que pagaste. Ganas si el mercado se mueve fuerte hacia arriba o hacia abajo.</li>
+                <li><strong class="text-red-400">Enemigo:</strong> El paso del tiempo (Theta) y que el mercado se quede lateralizado cerca del Strike original.</li>
+            </ul>
+        `,
+        chartTitle: "Perfil de Riesgo: Long Straddle",
+        chartDesc: "Ganas si el precio se aleja del Strike lo suficiente en cualquier dirección para cubrir el costo de ambas opciones.",
+        controls: [
+            { id: 'straddleStrike', label: 'Strike (Call & Put)', type: 'range', min: 3800, max: 4200, value: 4000, step: 10 },
+            { id: 'straddlePremium', label: 'Costo Total (Call + Put)', type: 'range', min: 10, max: 200, value: 100, step: 5 }
+        ],
+        renderChart: () => {
+            const strike = parseFloat(document.getElementById('straddleStrike').value);
+            const premium = parseFloat(document.getElementById('straddlePremium').value);
+            const prices = [];
+            const pnl = [];
+            for (let i = 3700; i <= 4300; i += 10) {
+                prices.push(i);
+                pnl.push((Math.max(0, i - strike) + Math.max(0, strike - i)) - premium);
+            }
+            updateChartInstance('line', prices, pnl, 'P&L ($)',
+                (ctx) => (ctx.p0?.parsed?.y < 0) ? 'rgba(239, 68, 68, 0.8)' : 'rgba(34, 197, 94, 0.8)'
+            );
+        }
+    },
+
+    // =============================================
+    // 9. ESTRATEGIAS — Iron Condor (Theta en Acción)
     // =============================================
     {
         id: 9,
@@ -691,11 +686,9 @@ export const modules = [
                     id: 'ironCondorAnnotations',
                     afterDraw: (chart) => {
                         const xAxis = chart.scales.x, yAxis = chart.scales.y, ctx2 = chart.ctx;
-                        // Zero line
                         const yZero = yAxis.getPixelForValue(0);
                         ctx2.save(); ctx2.strokeStyle = 'rgba(148,163,184,0.3)'; ctx2.lineWidth = 1; ctx2.setLineDash([4, 4]);
                         ctx2.beginPath(); ctx2.moveTo(xAxis.left, yZero); ctx2.lineTo(xAxis.right, yZero); ctx2.stroke(); ctx2.restore();
-                        // Strike lines
                         [{ val: sA, color: '#22c55e', label: 'A: ' + sA, dash: [3, 3] }, { val: sB, color: '#ef4444', label: 'B: ' + sB, dash: [6, 3] }, { val: sC, color: '#ef4444', label: 'C: ' + sC, dash: [6, 3] }, { val: sD, color: '#22c55e', label: 'D: ' + sD, dash: [3, 3] }].forEach(s => {
                             const idx = prices.indexOf(s.val); if (idx < 0) return;
                             const xPos = xAxis.getPixelForValue(idx);
@@ -704,7 +697,6 @@ export const modules = [
                             ctx2.save(); ctx2.fillStyle = s.color; ctx2.font = 'bold 9px Inter, sans-serif'; ctx2.textAlign = 'center';
                             ctx2.fillText(s.label, xPos, yAxis.top - 4); ctx2.restore();
                         });
-                        // Profit zone shade
                         const idxB = prices.indexOf(sB), idxC = prices.indexOf(sC);
                         if (idxB >= 0 && idxC >= 0) {
                             ctx2.save(); ctx2.fillStyle = 'rgba(34,197,94,0.06)';

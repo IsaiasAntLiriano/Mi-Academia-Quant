@@ -10,6 +10,25 @@ import { handleResize } from './core/chartEngine.js';
 let currentModuleId = 1;
 
 /**
+ * Obtiene los módulos sin duplicados basados en ID y título.
+ */
+function getUniqueModules() {
+    const seenIds = new Set();
+    const seenTitles = new Set();
+    const unique = [];
+
+    modules.forEach(mod => {
+        if (!seenIds.has(mod.id) && !seenTitles.has(mod.title)) {
+            seenIds.add(mod.id);
+            seenTitles.add(mod.title);
+            unique.push(mod);
+        }
+    });
+
+    return unique;
+}
+
+/**
  * Inicializa la aplicación: navegación, carga del primer módulo
  * y listeners globales.
  */
@@ -31,12 +50,15 @@ export function renderNavigation() {
 
     if (!navMenu || !mobileNav) return;
 
-    navMenu.innerHTML = '';
-    mobileNav.innerHTML = '';
+    // Limpieza total del contenedor para evitar cualquier duplicación
+    navMenu.replaceChildren();
+    mobileNav.replaceChildren();
+
+    const uniqueModules = getUniqueModules();
 
     // Agrupar módulos por categoría preservando el orden de aparición
     const categories = {};
-    modules.forEach(mod => {
+    uniqueModules.forEach(mod => {
         if (!categories[mod.category]) categories[mod.category] = [];
         categories[mod.category].push(mod);
     });
@@ -81,7 +103,8 @@ export function renderNavigation() {
  */
 export function loadModule(id) {
     currentModuleId = id;
-    const module = modules.find(m => m.id === id);
+    const uniqueModules = getUniqueModules();
+    const module = uniqueModules.find(m => m.id === id);
 
     if (!module) {
         console.error(`Módulo con ID ${id} no encontrado.`);
@@ -109,7 +132,7 @@ export function loadModule(id) {
     if (module.controls && module.controls.length > 0) {
         if (interactivePanel) interactivePanel.classList.remove('hidden');
         if (controlsContainer) {
-            controlsContainer.innerHTML = '';
+            controlsContainer.replaceChildren();
 
             module.controls.forEach(ctrl => {
                 const wrapper = document.createElement('div');
