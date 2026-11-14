@@ -147,8 +147,8 @@ export const modules = [
                         {
                             label: 'Valor Extrínseco / Temporal ($)',
                             data: extrinsicData,
-                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
-                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(44, 153, 214, 0.7)',
+                            borderColor: '#2C99D6',
                             borderWidth: 1
                         }
                     ]
@@ -317,7 +317,7 @@ export const modules = [
                         {
                             label: 'Línea T+0 (Hoy)',
                             data: t0Data,
-                            borderColor: '#3b82f6',
+                            borderColor: '#2C99D6',
                             borderWidth: 2,
                             tension: 0.3
                         },
@@ -453,8 +453,8 @@ export const modules = [
                         {
                             label: 'Valor Extrínseco de la Call ITM ($)',
                             data: extrinsic,
-                            borderColor: '#3b82f6',
-                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            borderColor: '#2C99D6',
+                            backgroundColor: 'rgba(44, 153, 214, 0.2)',
                             fill: true,
                             tension: 0.2
                         },
@@ -780,8 +780,8 @@ export const modules = [
                     datasets: [{
                         label: mode === 1 ? 'ATM (Caída Exponencial Severa)' : (mode === 2 ? 'OTM' : 'ITM'),
                         data: values,
-                        borderColor: mode === 1 ? '#ef4444' : '#3b82f6',
-                        backgroundColor: mode === 1 ? 'rgba(239, 68, 68, 0.15)' : 'rgba(59, 130, 246, 0.15)',
+                        borderColor: mode === 1 ? '#ef4444' : '#2C99D6',
+                        backgroundColor: mode === 1 ? 'rgba(239, 68, 68, 0.15)' : 'rgba(44, 153, 214, 0.15)',
                         fill: true,
                         tension: 0.3
                     }]
@@ -899,7 +899,7 @@ export const modules = [
                         {
                             label: 'Rho Call (+)',
                             data: callRho,
-                            borderColor: '#3b82f6',
+                            borderColor: '#2C99D6',
                             borderWidth: 2,
                             tension: 0.2
                         },
@@ -1083,7 +1083,7 @@ export const modules = [
                         {
                             label: 'Diferencial de Mercado (Call - Put)',
                             data: synthetic,
-                            borderColor: '#3b82f6',
+                            borderColor: '#2C99D6',
                             borderDash: [4, 4],
                             borderWidth: 2
                         }
@@ -1549,8 +1549,8 @@ export const modules = [
                 datasets = [{
                     label: 'OI Compare: Cambio Neto vs. Ayer (Miles de Contratos)',
                     data: compareChange,
-                    backgroundColor: compareChange.map(v => v >= 0 ? 'rgba(59, 130, 246, 0.85)' : 'rgba(245, 158, 11, 0.85)'),
-                    borderColor: compareChange.map(v => v >= 0 ? '#3b82f6' : '#f59e0b'),
+                    backgroundColor: compareChange.map(v => v >= 0 ? 'rgba(44, 153, 214, 0.85)' : 'rgba(245, 158, 11, 0.85)'),
+                    borderColor: compareChange.map(v => v >= 0 ? '#2C99D6' : '#f59e0b'),
                     borderWidth: 1.5
                 }];
             }
@@ -1731,8 +1731,8 @@ export const modules = [
                     datasets: [{
                         label: 'Tasa de Acierto Histórica (Win Rate %)',
                         data: winRates,
-                        backgroundColor: categories.map((_, i) => i + 1 === filters ? '#3b82f6' : 'rgba(148, 163, 184, 0.4)'),
-                        borderColor: '#3b82f6',
+                        backgroundColor: categories.map((_, i) => i + 1 === filters ? '#2C99D6' : 'rgba(148, 163, 184, 0.4)'),
+                        borderColor: '#2C99D6',
                         borderWidth: 1
                     }]
                 },
@@ -1805,8 +1805,8 @@ export const modules = [
                         {
                             label: 'Covered Call (Acción + Venta de Call)',
                             data: coveredCall,
-                            borderColor: '#3b82f6',
-                            backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                            borderColor: '#2C99D6',
+                            backgroundColor: 'rgba(44, 153, 214, 0.15)',
                             fill: true,
                             borderWidth: 2
                         },
@@ -2225,7 +2225,7 @@ export const modules = [
                         {
                             label: 'Bull Call Spread (Débito)',
                             data: debitData,
-                            borderColor: '#3b82f6',
+                            borderColor: '#2C99D6',
                             borderWidth: 2
                         },
                         {
